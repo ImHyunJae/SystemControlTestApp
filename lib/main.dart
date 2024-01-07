@@ -3,11 +3,8 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
-import 'package:filepicker_windows/filepicker_windows.dart' as fp;
-import 'package:filepicker_windows/filepicker_windows.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart';
 
@@ -160,19 +157,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
   );
 
   // Get the directory for saving the PDF using file_picker
-  Directory? directory = await getExternalStorageDirectory();
-  if (directory == null) {
-    // Handle error or choose another directory
-    return;
-  }
+  String? save_path = await FilePicker.platform.getDirectoryPath();
 
-  // Save the PDF to the directory
-  final filePath = join(directory.path, 'test_report.pdf');
-  final outputFile = File(filePath);
-  await outputFile.writeAsBytes(await pdf.save());
+  if(save_path!=null)
+  {
+    final filePath = join(save_path, 'test_report.pdf');
+    final outputFile = File(filePath);
+    await outputFile.writeAsBytes(await pdf.save());
 
   // Print the path to the console (you can remove this line if not needed)
-  print('PDF saved to: $filePath');
+    print('PDF saved to: $filePath');
+  }
+  // Save the PDF to the directory
+ 
 }
 }
 
