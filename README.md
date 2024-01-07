@@ -1,21 +1,25 @@
-<<<<<<< HEAD
-# system_control_test_app
+# System Control Test App
 
-A new Flutter project.
+This application is for the desktop application(windows)
+This app works on other os, but not tested.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+* Main features
+    * Target System Control
+    * Target System Monitoring
+    * Target System Test
+    * TCP/IP Communication
+    * UDP/IP Communication
+    * Logging
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+* Sub Features
+    * Reporting
+    * Save the result file
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-=======
-# SystemControlTestApp
-System Control, Test, Monitoring, Reporting App by Flutter
->>>>>>> f5d2566b99700e75c7250e6d4857b5f463b94f42
+
+## Working History
+
+* 2024.01.05 - Project was created
+* 2024.01.06 - Button, Progressbar features
+* 2024.01.07 - Get a directory path for PDF File saving
