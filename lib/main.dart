@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -20,7 +19,8 @@ class MyApp extends StatelessWidget {
       title: 'Dashboard App',
       theme: ThemeData.dark().copyWith(
         colorScheme: theme.colorScheme.copyWith(secondary: Colors.blueAccent),
-        scaffoldBackgroundColor: Color.fromARGB(255, 3, 0, 43), // Set the background color
+        scaffoldBackgroundColor:
+            Color.fromARGB(255, 3, 0, 43), // Set the background color
         textTheme: TextTheme(
           bodyText2: TextStyle(color: Colors.white), // Set text color
         ),
@@ -58,7 +58,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CircularPercentIndicator(
-              radius: 150.0,
+              radius: 100.0,
               lineWidth: 10.0,
               percent: circularProgress.clamp(0.0, 1.0),
               center: Text(
@@ -95,6 +95,54 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ElevatedButton(
               onPressed: generatePDF,
               child: Text('Generate PDF'),
+            ),
+            TextButton(
+              onPressed: () => showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => Dialog(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text('This is a typical dialog.'),
+                        const SizedBox(height: 15),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Close'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              child: const Text('Show Dialog'),
+            ),
+            const SizedBox(height: 10),
+            TextButton(
+              onPressed: () => showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => Dialog.fullscreen(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text('This is a fullscreen dialog.'),
+                      const SizedBox(height: 15),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Close'),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              child: const Text('Show Fullscreen Dialog'),
             ),
           ],
         ),
@@ -141,36 +189,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Future<void> generatePDF() async {
-  final pdf = pw.Document();
+    final pdf = pw.Document();
 
-  // Add content to the PDF
-  pdf.addPage(
-    pw.Page(
-      build: (pw.Context context) => pw.Column(
-        crossAxisAlignment: pw.CrossAxisAlignment.center,
-        children: [
-          pw.Text('Test 1 Result: ${showCircularProgressBar ? 'In Progress' : 'Pass'}'),
-          pw.Text('Test 2 Result: ${showLinearProgressBar ? 'In Progress' : 'Fail'}'),
-        ],
+    // Add content to the PDF
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context context) => pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.center,
+          children: [
+            pw.Text(
+                'Test 1 Result: ${showCircularProgressBar ? 'In Progress' : 'Pass'}'),
+            pw.Text(
+                'Test 2 Result: ${showLinearProgressBar ? 'In Progress' : 'Fail'}'),
+          ],
+        ),
       ),
-    ),
-  );
+    );
 
-  // Get the directory for saving the PDF using file_picker
-  String? save_path = await FilePicker.platform.getDirectoryPath();
+    // Get the directory for saving the PDF using file_picker
+    String? save_path = await FilePicker.platform.getDirectoryPath();
 
-  if(save_path!=null)
-  {
-    final filePath = join(save_path, 'test_report.pdf');
-    final outputFile = File(filePath);
-    await outputFile.writeAsBytes(await pdf.save());
+    if (save_path != null) {
+      final filePath = join(save_path, 'test_report.pdf');
+      final outputFile = File(filePath);
+      await outputFile.writeAsBytes(await pdf.save());
 
-  // Print the path to the console (you can remove this line if not needed)
-    print('PDF saved to: $filePath');
+      // Print the path to the console (you can remove this line if not needed)
+      print('PDF saved to: $filePath');
+    }
+    // Save the PDF to the directory
   }
-  // Save the PDF to the directory
- 
-}
 }
 
 class TestResultLabel extends StatelessWidget {
