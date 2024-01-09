@@ -6,6 +6,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart';
+import 'package:system_control_test_app/current_date_time_widget.dart';
 
 void main() {
   runApp(MyApp());
@@ -57,8 +58,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            CurrentDateTimeWidget(),
             CircularPercentIndicator(
-              radius: 100.0,
+              radius: 50.0,
               lineWidth: 10.0,
               percent: circularProgress.clamp(0.0, 1.0),
               center: Text(
@@ -246,6 +248,37 @@ class TestResultLabel extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CurrentTimeDisplay extends StatefulWidget {
+  @override
+  _CurrentTimeDisplayState createState() => _CurrentTimeDisplayState();
+}
+
+class _CurrentTimeDisplayState extends State<CurrentTimeDisplay> {
+  DateTime _dateTime = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(Duration(seconds: 1), (timer) => _updateTime());
+  }
+
+  void _updateTime() {
+    setState(() {
+      _dateTime = DateTime.now();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        _dateTime.toString(),
+        style: TextStyle(fontSize: 30),
       ),
     );
   }
