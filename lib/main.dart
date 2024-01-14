@@ -108,20 +108,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        const Text('This is a typical dialog.'),
-                        const SizedBox(height: 15),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text('Close'),
-                        ),
+                        LoginDialog(),
                       ],
+                      // children: <Widget>[
+                      //   const Text('This is a typical dialog.'),
+                      //   const SizedBox(height: 15),
+                      //   TextButton(
+                      //     onPressed: () {
+                      //       Navigator.pop(context);
+                      //     },
+                      //     child: const Text('Close'),
+                      //   ),
+                      // ],
                     ),
                   ),
                 ),
               ),
-              child: const Text('Show Dialog'),
+              child: const Text('운용자 인증'),
             ),
             const SizedBox(height: 10),
             TextButton(
@@ -280,6 +283,73 @@ class _CurrentTimeDisplayState extends State<CurrentTimeDisplay> {
         _dateTime.toString(),
         style: TextStyle(fontSize: 30),
       ),
+    );
+  }
+}
+
+class LoginDialog extends StatefulWidget {
+  @override
+  _LoginDialogState createState() => _LoginDialogState();
+}
+
+class _LoginDialogState extends State<LoginDialog> {
+  final _idController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _idController.text = '';
+    _passwordController.text = '';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('로그인'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextFormField(
+            controller: _idController,
+            decoration: InputDecoration(labelText: '아이디'),
+          ),
+          TextFormField(
+            controller: _passwordController,
+            decoration: InputDecoration(labelText: '패스워드'),
+            obscureText: true,
+          ),
+        ],
+      ),
+      actions: [
+        ElevatedButton(
+          child: Text('로그인'),
+          onPressed: () {
+            if (_idController.text == 'admin' &&
+                _passwordController.text == 'admin') {
+              Navigator.of(context).pop();
+            } else {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('로그인 실패'),
+                    content: Text('아이디 또는 패스워드가 올바르지 않습니다.'),
+                    actions: [
+                      ElevatedButton(
+                        child: Text('확인'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          },
+        ),
+      ],
     );
   }
 }
