@@ -61,7 +61,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ChatScreen(),
+            // ChatScreen(),
             CurrentDateTimeWidget(),
             CircularPercentIndicator(
               radius: 50.0,
@@ -141,6 +141,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     children: <Widget>[
                       const Text('This is a fullscreen dialog.'),
                       const SizedBox(height: 15),
+                      CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                      ),
                       TextButton(
                           onPressed: () {
                             Navigator.pop(context);
