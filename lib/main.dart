@@ -7,6 +7,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart';
 import 'package:system_control_test_app/current_date_time_widget.dart';
+import 'dart:async';
+import 'dart:io';
+import 'dart:convert';
 
 void main() {
   runApp(MyApp());
@@ -58,6 +61,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            ChatScreen(),
             CurrentDateTimeWidget(),
             CircularPercentIndicator(
               radius: 50.0,
@@ -138,11 +142,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       const Text('This is a fullscreen dialog.'),
                       const SizedBox(height: 15),
                       TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Close'),
-                      ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Column(
+                            children: [
+                              const Text('Close'),
+                            ],
+                          )),
                     ],
                   ),
                 ),
@@ -350,6 +357,69 @@ class _LoginDialogState extends State<LoginDialog> {
           },
         ),
       ],
+    );
+  }
+}
+
+class ChatScreen extends StatefulWidget {
+  @override
+  State createState() => ChatScreenState();
+}
+
+class ChatScreenState extends State<ChatScreen> {
+  final List<String> _messages = [];
+  final TextEditingController _controller = TextEditingController();
+
+  void _sendMessage(String message) {
+    setState(() {
+      _messages.add(message);
+    });
+    _controller.clear();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter Chat Widget'),
+      ),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: ListView.builder(
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(_messages[index]),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    decoration: InputDecoration(
+                      hintText: 'Enter your message...',
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.send),
+                  onPressed: () {
+                    if (_controller.text.isNotEmpty) {
+                      _sendMessage(_controller.text);
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
